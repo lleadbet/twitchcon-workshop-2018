@@ -13,8 +13,7 @@ export default class App extends React.Component{
         this.state={
             finishedLoading:false,
             theme:'light',
-            isVisible:true,
-            events:[]
+            isVisible:true
         }
     }
 
@@ -75,17 +74,10 @@ export default class App extends React.Component{
     }
     
     render(){
-        if(this.state.finishedLoading && this.state.isVisible && this.state.events.length > 0){
-            return (
-                <div className={this.state.theme === 'light' ? 'App App-light' : 'App App-dark'} >
-                    <p>Hello world!</p>
-                </div>
-            )
-        }
         if(this.state.finishedLoading && this.state.isVisible){
             return (
                 <div className={this.state.theme === 'light' ? 'App App-light' : 'App App-dark'} >
-                    <p>No current events planned!</p>
+                    <p>Hello world!</p>
                 </div>
             )
         }
