@@ -52,7 +52,7 @@ export default class ConfigPage extends React.Component{
             return(
                 <div className="Config">
                     <div className={this.state.theme==='light' ? 'Config-light' : 'Config-dark'}>
-                        There is no configuration needed for this extension!
+                        Update Schedule: 
                         <DateTime />
                     </div>
                 </div>

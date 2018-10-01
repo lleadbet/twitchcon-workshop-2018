@@ -13,14 +13,17 @@ export default class App extends React.Component{
         this.state={
             finishedLoading:false,
             theme:'light',
-            isVisible:true
+            isVisible:true,
+            events:[]
         }
     }
 
     contextUpdate(context, delta){
         if(delta.includes('theme')){
             this.setState(()=>{
-                return {theme:context.theme}
+                return {
+                    theme:context.theme
+                }
             })
         }
     }
@@ -72,19 +75,21 @@ export default class App extends React.Component{
     }
     
     render(){
-        if(this.state.finishedLoading && this.state.isVisible){
+        if(this.state.finishedLoading && this.state.isVisible && this.state.events.length > 0){
             return (
-                <div className="App">
-                    <div className={this.state.theme === 'light' ? 'App-light' : 'App-dark'} >
-                        <p>Hello world!</p>
-                        <p>My token is: {this.Authentication.state.token}</p>
-                        <p>My opaque ID is {this.Authentication.getOpaqueId()}.</p>
-                        <div>{this.Authentication.isModerator() ? <p>I am currently a mod, and here's a special mod button <input value='mod button' type='button'/></p>  : 'I am currently not a mod.'}</div>
-                        <p>I have {this.Authentication.hasSharedId() ? `shared my ID, and my user_id is ${this.Authentication.getUserId()}` : 'not shared my ID'}.</p>
-                    </div>
+                <div className={this.state.theme === 'light' ? 'App App-light' : 'App App-dark'} >
+                    <p>Hello world!</p>
                 </div>
             )
-        }else{
+        }
+        if(this.state.finishedLoading && this.state.isVisible){
+            return (
+                <div className={this.state.theme === 'light' ? 'App App-light' : 'App App-dark'} >
+                    <p>No current events planned!</p>
+                </div>
+            )
+        }
+        else{
             return (
                 <div className="App">
                     Loading....
