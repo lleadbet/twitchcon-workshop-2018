@@ -1,6 +1,7 @@
 import React from 'react'
 import Authentication from '../../util/Authentication/Authentication'
 import DateTime from 'react-datetime'
+import Schedule from '../Schedule/Schedule'
 
 import './Config.css'
 import './DateTime.css'
@@ -14,7 +15,8 @@ export default class ConfigPage extends React.Component{
         this.twitch = window.Twitch ? window.Twitch.ext : null
         this.state={
             finishedLoading:false,
-            theme:'light'
+            theme:'light',
+            events:[]
         }
     }
 
@@ -52,7 +54,8 @@ export default class ConfigPage extends React.Component{
             return(
                 <div className="Config">
                     <div className={this.state.theme==='light' ? 'Config-light' : 'Config-dark'}>
-                        Update Schedule: 
+                        Current Schedule:
+                        <Schedule events={this.state.events} /> 
                         <DateTime />
                     </div>
                 </div>
