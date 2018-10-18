@@ -1,5 +1,6 @@
 import React from 'react'
 import Authentication from '../../util/Authentication/Authentication'
+import Schedule from '../Schedule/Schedule'
 
 import './App.css'
 
@@ -13,10 +14,12 @@ export default class App extends React.Component{
         this.state={
             finishedLoading:false,
             theme:'light',
-            isVisible:true
+            isVisible:true,
+            events:[]
         }
     }
 
+    // changes the theming of the app
     contextUpdate(context, delta){
         if(delta.includes('theme')){
             this.setState(()=>{
@@ -27,6 +30,7 @@ export default class App extends React.Component{
         }
     }
 
+    // changes visibility of the application depending on if the extension was hidden (for mobile devices)
     visibilityChanged(isVisible){
         this.setState(()=>{
             return {
@@ -38,10 +42,12 @@ export default class App extends React.Component{
     componentDidMount(){
         if(this.twitch){
             this.twitch.onAuthorized((auth)=>{
+                // update our instance with the token and userId for use later
                 this.Authentication.setToken(auth.token, auth.userId)
+
                 if(!this.state.finishedLoading){
                     // if the component hasn't finished loading (as in we've not set up after getting a token), let's set it up now.
-
+                    
                     // now we've done the setup for the component, let's set the state to true to force a rerender with the correct data.
                     this.setState(()=>{
                         return {finishedLoading:true}
@@ -49,14 +55,12 @@ export default class App extends React.Component{
                 }
             })
 
-            this.twitch.listen('broadcast',(target,contentType,body)=>{
-                this.twitch.rig.log(`New PubSub message!\n${target}\n${contentType}\n${body}`)
-                // now that you've got a listener, do something with the result... 
-
-                // do something...
+            this.twitch.configuration.onChanged(()=>{
+                // configuration changed! let's update our UI now...
 
             })
 
+            // handlers for UI
             this.twitch.onVisibilityChanged((isVisible,_c)=>{
                 this.visibilityChanged(isVisible)
             })
@@ -77,7 +81,7 @@ export default class App extends React.Component{
         if(this.state.finishedLoading && this.state.isVisible){
             return (
                 <div className={this.state.theme === 'light' ? 'App App-light' : 'App App-dark'} >
-                    <p>Hello world!</p>
+                    <Schedule events={this.state.events} />
                 </div>
             )
         }
