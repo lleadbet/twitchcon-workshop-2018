@@ -1,6 +1,5 @@
 import React from 'react'
 import Authentication from '../../util/Authentication/Authentication'
-import DateTime from 'react-datetime'
 import ConfigSchedule from './ConfigSchedule/ConfigSchedule'
 
 import './Config.css'
@@ -43,6 +42,28 @@ export default class ConfigPage extends React.Component{
                 }
             })
 
+            this.twitch.configuration.onChanged(()=>{
+                // We've gotten a configuration! Sweet! Now, let's set that to our state to update our Schedule (if one!)
+                
+                // We're going to use the broadcaster semgent here to store our data, so let's access that segment. 
+                if(this.twitch.configuration.broadcaster){
+                    let configuration = this.twitch.configuration.broadcaster.content
+
+                    // because the object could be null/empty string, let's ensure we catch when the extension fails to parse the configuraiton
+                    try{
+                        configuration = JSON.parse(config)
+                    }catch(e){
+                        configuration = []
+                    }
+
+                    this.setState(()=>{
+                        return{
+                            events:configuration
+                        }
+                    })
+                }  
+            })
+
             this.twitch.onContext((context,delta)=>{
                 this.contextUpdate(context,delta)
             })
@@ -56,7 +77,6 @@ export default class ConfigPage extends React.Component{
                     <div className={this.state.theme==='light' ? 'Config-light' : 'Config-dark'}>
                         Current Schedule:
                         <ConfigSchedule events={this.state.events} /> 
-                        <DateTime />
                     </div>
                 </div>
             )
