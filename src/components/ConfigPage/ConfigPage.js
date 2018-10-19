@@ -70,13 +70,24 @@ export default class ConfigPage extends React.Component{
         }
     }
 
+    updateConfig(events){
+        if(this.twitch){
+
+            this.twitch.configuration.set('broadcaster', '1', JSON.stringify(events))
+            
+            this.setState({
+                events
+            })
+        }
+    }
+
     render(){
         if(this.state.finishedLoading && this.Authentication.isModerator()){
             return(
                 <div className="Config">
                     <div className={this.state.theme==='light' ? 'Config-light' : 'Config-dark'}>
                         Current Schedule:
-                        <ConfigSchedule events={this.state.events} /> 
+                        <ConfigSchedule events={this.state.events} updateConfig={(events)=>this.updateConfig(events)} /> 
                     </div>
                 </div>
             )

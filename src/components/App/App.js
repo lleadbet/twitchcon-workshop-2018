@@ -57,7 +57,19 @@ export default class App extends React.Component{
 
             this.twitch.configuration.onChanged(()=>{
                 // configuration changed! let's update our UI now...
+                if(this.twitch.configuration.broadcaster && this.twitch.configuration.broadcaster.content){
+                    let config = this.twitch.configuration.broadcaster.content
+                    let events = []
+                    try {
+                        events = JSON.parse(config)                   
+                    } catch (e) {
+                        
+                    }
 
+                    this.setState({
+                        events
+                    })
+                }
             })
 
             // handlers for UI

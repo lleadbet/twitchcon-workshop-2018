@@ -9,7 +9,7 @@ export default class ConfigSchedule extends React.Component{
         super(props)
 
         this.state = {
-            events:[{id:Date.now(),title:"test"}]
+            events:[]
         }
     }
 
@@ -46,49 +46,41 @@ export default class ConfigSchedule extends React.Component{
             }
         })
     }
-
+    
     render(){
-        if(this.state.events && this.state.events.length > 0){
-            return(
-                <div className="Schedule">
-                    Here's the current schedule!
-                    <form onSubmit={(e)=>this.handleScheduleSubmit(e)}>
-                        <label htmlFor="title">Title: </label>
-                        <input 
-                            name="title" 
-                            onChange={e=>this.handleInputChange(e)} 
-                            ref={el=>this.titleInput = el}
-                        />
-                        <br/>
-                        <label htmlFor="description">Description: </label>
-                        <input 
-                            name="description" 
-                            onChange={e=>this.handleInputChange(e)}
-                            ref={el=>this.descriptionInput = el}
-                        />
-                        <br/>
-                        <label>Time: </label>
-                        <DateTime 
-                            onChange={e=>this.handleDateTimeChange(e)}
-                            ref={el=>this.dateTimeInput = el}
-                        />
-                        <br />
-                        <input type="submit" value="Add" disabled={!this.state.title || !this.state.description || !this.state.dateTime} />
-                    </form>
-                    <hr />
-                    {this.state.events.map(v=>{
-                        console.log(v)
-                        return(<Event key={v.id} delete={(key)=>console.log(key)} event={v} />)
-                    })}
-                </div>
-            )
-        }
-        else{
-            return(
-                <div className="Schedule">
-                    No current events scheduled!
-                </div>
-            )
-        }
+        return(
+            <div className="Schedule">
+                Here's the current schedule!
+                <form onSubmit={(e)=>this.handleScheduleSubmit(e)}>
+                    <label htmlFor="title">Title: </label>
+                    <input 
+                        name="title" 
+                        onChange={e=>this.handleInputChange(e)} 
+                        ref={el=>this.titleInput = el}
+                    />
+                    <br/>
+                    <label htmlFor="description">Description: </label>
+                    <input 
+                        name="description" 
+                        onChange={e=>this.handleInputChange(e)}
+                        ref={el=>this.descriptionInput = el}
+                    />
+                    <br/>
+                    <label>Time: </label>
+                    <DateTime 
+                        onChange={e=>this.handleDateTimeChange(e)}
+                        ref={el=>this.dateTimeInput = el}
+                    />
+                    <br />
+                    <input type="submit" value="Add" disabled={!this.state.title || !this.state.description || !this.state.dateTime} />
+                </form>
+                <hr />
+                {this.state.events.map(v=>{
+                    console.log(v)
+                    return(<Event key={v.id} delete={(key)=>console.log(key)} event={v} />)
+                })}
+                <input type="button" value="Save Schedule" onClick={()=>this.props.updateConfig(this.state.events)} />
+            </div>
+        )
     }
 }
