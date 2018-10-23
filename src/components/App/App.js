@@ -1,6 +1,6 @@
 import React from 'react'
 import Authentication from '../../util/Authentication/Authentication'
-import Schedule from '../Schedule/Schedule'
+import Schedule from './Schedule/Schedule'
 
 import './App.css'
 
