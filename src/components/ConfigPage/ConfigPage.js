@@ -1,7 +1,7 @@
 import React from 'react'
 import Authentication from '../../util/Authentication/Authentication'
 import DateTime from 'react-datetime'
-import Schedule from '../Schedule/Schedule'
+import ConfigSchedule from './ConfigSchedule/ConfigSchedule'
 
 import './Config.css'
 import './DateTime.css'
@@ -55,7 +55,7 @@ export default class ConfigPage extends React.Component{
                 <div className="Config">
                     <div className={this.state.theme==='light' ? 'Config-light' : 'Config-dark'}>
                         Current Schedule:
-                        <Schedule events={this.state.events} /> 
+                        <ConfigSchedule events={this.state.events} /> 
                         <DateTime />
                     </div>
                 </div>
